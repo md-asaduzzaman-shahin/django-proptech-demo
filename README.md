@@ -22,3 +22,8 @@ It features an **AI Service Layer** that automatically generates marketing descr
 `AI_PROVIDER=GEMINI`
 `GEMINI_API_KEY=...`
 4.  `python manage.py runserver`
+
+## Credentials for live demo
+link: https://django-proptech-demo.onrender.com/admin/
+username: admin
+password: 91freefire
