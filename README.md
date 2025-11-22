@@ -1,12 +1,24 @@
-# Proptech Django Prototype
+# Proptech AI Demo (Django + Gemini)
 
-A simple commercial property listing API built with Django + Django REST Framework + PostgreSQL.
+A commercial property listing platform built with Django REST Framework. 
+It features an **AI Service Layer** that automatically generates marketing descriptions for new properties using Large Language Models.
 
-## Features
-- CRUD operations for property listings
-- Real-estate focused fields (size, rent, availability, etc.)
-- Fully functional REST API at /api/properties
+## Key Features
+* **AI-Powered:** Automatically writes listing descriptions upon saving.
+* **Modular Service Layer:** Decoupled architecture allowing hot-swapping between **OpenAI**, **Google Gemini (2.5 Flash)**, or a local **Mock** generator.
+* **Cost-Efficient:** Currently configured to use Google Gemini 2.5 Flash for high-speed, zero-cost generation.
+* **Secure:** API keys managed via `.env` (not hardcoded).
 
-Built in November 2025 to explore Proptech workflows and Django backend development.
+## Tech Stack
+* Python 3.12
+* Django 5.0 & Django REST Framework
+* Google Generative AI (Gemini 2.5)
+* Python-dotenv for security
 
-Live demo API:
+## How to Run
+1.  Clone the repo
+2.  `pip install -r requirements.txt`
+3.  Create a `.env` file in root 
+`AI_PROVIDER=GEMINI`
+`GEMINI_API_KEY=...`
+4.  `python manage.py runserver`
