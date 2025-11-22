@@ -15,12 +15,24 @@ class Property(models.Model):
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    # fix the plural nameing
     class Meta:
+        # This fixes the "Propertys" spelling in Admin
         verbose_name_plural = "Properties"
 
     def save(self, *args, **kwargs):
-        # ... (keep your existing AI save logic here) ...
+        # 1. DEBUG PRINT: Tells us the function is actually running
+        print(f"--- Saving Property: {self.title} ---")
+        
+        # 2. CHECK LOGIC: Is it empty or an error message?
+        current_desc = self.description.strip() if self.description else ""
+        
+        if not current_desc or current_desc == "Description pending manual update.":
+            print("--- Description is empty. Triggering AI... ---")
+            self.description = generate_property_description(self)
+        else:
+            print("--- Description already exists. Skipping AI. ---")
+        
+        # 3. SAVE TO DB
         super().save(*args, **kwargs)
 
     def __str__(self):
