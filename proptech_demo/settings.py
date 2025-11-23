@@ -46,9 +46,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', # added for project
     'listings',
+    'corsheaders', # added for CORS
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware', # added for CORS
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -134,3 +136,7 @@ if not DEBUG:
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Allow all for dev, specific domains for prod
+CORS_ALLOW_ALL_ORIGINS = True # Temporary for development

@@ -1,0 +1,31 @@
+--- PYTHON / DJANGO ---
+
+*.pyc
+pycache/
+*.py[cod]
+db.sqlite3
+/venv
+/env
+.env
+.pytest_cache/
+
+--- NODE / REACT (Frontend) ---
+
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.DS_Store
+frontend/coverage/
+
+--- SYSTEM FILES ---
+
+.DS_Store
+Thumbs.db
+
+--- LOGS ---
+
+.log
+npm-debug.log
+yarn-debug.log*
+yarn-error.log*
