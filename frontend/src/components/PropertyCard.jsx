@@ -1,11 +1,21 @@
 import { MapPin, Building, Ruler } from 'lucide-react';
 
-export default function PropertyCard({ property }) {
+// FEATURE 2: Added 'index' to the arguments
+export default function PropertyCard({ property, index }) {
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition border border-gray-100">
-      <div className="h-32 bg-blue-600 flex items-center justify-center text-white">
-        <Building size={48} />
+    <div className="relative bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition border border-gray-100 group">
+      
+      {/* FEATURE 2: The Number Badge */}
+      <div className="absolute top-3 left-3 bg-white/90 backdrop-blur text-gray-900 font-bold w-8 h-8 flex items-center justify-center rounded-full shadow-sm z-10 border border-gray-200">
+        #{index}
       </div>
+
+      <div className="h-32 bg-blue-600 flex items-center justify-center text-white relative">
+        <Building size={48} className="group-hover:scale-110 transition-transform duration-300"/>
+        {/* Decorative pattern */}
+        <div className="absolute inset-0 bg-black/10 mix-blend-overlay"></div>
+      </div>
+      
       <div className="p-5">
         <div className="flex justify-between items-start">
           <div>
@@ -32,7 +42,6 @@ export default function PropertyCard({ property }) {
         </div>
 
         <div className="p-3 bg-gray-50 rounded-lg text-sm text-gray-600 italic border-l-4 border-blue-400">
-           {/* If description is empty, show a placeholder */}
            "{property.description || "AI Description processing..."}"
         </div>
       </div>

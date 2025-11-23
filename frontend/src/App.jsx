@@ -1,16 +1,19 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
     <BrowserRouter>
-      {/* Routes acts like a Switch Statement for URLs */}
       <Routes>
-        {/* If path is exactly "/" -> Show LandingPage */}
+        {/* The Landing Page (Home) */}
         <Route path="/" element={<LandingPage />} />
         
-        {/* If path is "/dashboard" -> Show Dashboard */}
+        {/* The Login Page (The missing link!) */}
+        <Route path="/login" element={<LoginPage />} />
+        
+        {/* The Dashboard (Protected) */}
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>

@@ -1,27 +1,30 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Building, Sparkles, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 
 export default function LandingPage() {
-  const navigate = useNavigate(); // Hook to change pages programmatically
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    setLoading(true);
-    // WHAT: We fake a 1.5 second delay.
-    // WHY: Immediate transitions feel "cheap". A small delay feels like a 
-    // real secure authentication process is happening.
-    setTimeout(() => {
+  // THE SMART LOGIC:
+  // We don't auto-redirect on page load anymore.
+  // We only check credentials when the user explicitly clicks a button.
+  const handleSmartNavigation = () => {
+    const isLoggedIn = localStorage.getItem('proptech_auth');
+    
+    if (isLoggedIn === 'true') {
+      // If remembered, go straight to Dashboard
       navigate('/dashboard');
-    }, 1500);
+    } else {
+      // If not, go to Login Screen to get credentials
+      navigate('/login');
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-blue-900 to-gray-900 text-white font-sans overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-blue-900 to-gray-900 text-white font-sans flex flex-col relative overflow-hidden">
       
       {/* Navigation Bar */}
-      <nav className="flex justify-between items-center p-6 max-w-7xl mx-auto">
+      <nav className="absolute top-0 left-0 right-0 flex justify-between items-center p-6 max-w-7xl mx-auto w-full z-10">
         <div className="flex items-center gap-2 font-bold text-xl tracking-tight">
           <div className="p-2 bg-blue-600 rounded-lg">
             <Building size={24} className="text-white" />
@@ -30,16 +33,18 @@ export default function LandingPage() {
             PropAI
           </span>
         </div>
+        
+        {/* Top Right Button - Uses Smart Logic */}
         <button 
-          onClick={handleLogin}
+          onClick={handleSmartNavigation}
           className="px-6 py-2 border border-blue-500/30 rounded-full hover:bg-blue-600/20 transition backdrop-blur-sm text-sm font-medium"
         >
-          Agent Login
+          Agent Sign In
         </button>
       </nav>
 
-      {/* Main Content Area */}
-      <main className="flex flex-col items-center justify-center text-center mt-20 px-4">
+      {/* Main Hero Section - Centered */}
+      <main className="flex-grow flex flex-col items-center justify-center text-center px-4 z-0 mt-10">
         
         {/* Animated Badge */}
         <motion.div 
@@ -47,12 +52,12 @@ export default function LandingPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <span className="px-4 py-1.5 rounded-full bg-blue-900/50 border border-blue-700/50 text-blue-300 text-sm font-medium inline-flex items-center gap-2 mb-6">
+          <span className="px-4 py-1.5 rounded-full bg-blue-900/50 border border-blue-700/50 text-blue-300 text-sm font-medium inline-flex items-center gap-2 mb-8">
             <Sparkles size={14} /> New: Gemini 2.5 Integration Live
           </span>
         </motion.div>
 
-        {/* Animated Title */}
+        {/* Headline */}
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -65,7 +70,7 @@ export default function LandingPage() {
           </span>
         </motion.h1>
 
-        {/* Animated Description */}
+        {/* Subtitle */}
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,68 +80,60 @@ export default function LandingPage() {
           Stop writing descriptions manually. Our AI agent generates premium real estate copy, analyzes specs, and manages your portfolio in seconds.
         </motion.p>
 
-        {/* The Call to Action Button */}
+        {/* Main Call to Action Button - Uses Smart Logic */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-col md:flex-row gap-4 w-full justify-center"
+          className="flex flex-col md:flex-row gap-4 w-full justify-center mb-20"
         >
           <button 
-            onClick={handleLogin}
-            disabled={loading}
+            onClick={handleSmartNavigation}
             className="group relative px-8 py-4 bg-blue-600 rounded-xl font-bold text-lg shadow-lg shadow-blue-500/20 hover:bg-blue-500 transition overflow-hidden"
           >
-            {loading ? (
-              <span className="flex items-center justify-center gap-2">
-                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"/>
-                Authenticating...
-              </span>
-            ) : (
-              <span className="flex items-center justify-center gap-2">
-                Launch Dashboard <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-              </span>
-            )}
+            <span className="flex items-center justify-center gap-2">
+              Launch Dashboard <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+            </span>
           </button>
         </motion.div>
-
-        {/* Features Grid (Bottom Section) */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 max-w-5xl text-left"
-        >
-          <FeatureCard 
-            icon={<Zap className="text-yellow-400" />}
-            title="Instant Generation"
-            desc="Generate listing copy in <2 seconds using our custom service layer."
-          />
-          <FeatureCard 
-            icon={<Sparkles className="text-purple-400" />}
-            title="AI Powered"
-            desc="Built on Google Gemini 2.5 for context-aware property descriptions."
-          />
-          <FeatureCard 
-            icon={<ShieldCheck className="text-teal-400" />}
-            title="Secure Architecture"
-            desc="Enterprise-grade security with isolated environments and CORS protection."
-          />
-        </motion.div>
       </main>
+
+      {/* Feature Grid Footer */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1 }}
+        className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto pb-12 px-4 w-full text-left"
+      >
+        <FeatureCard 
+          icon={<Zap className="text-yellow-400" />}
+          title="Instant Generation"
+          desc="Generate listing copy in <2s."
+        />
+        <FeatureCard 
+          icon={<Sparkles className="text-purple-400" />}
+          title="AI Powered"
+          desc="Google Gemini 2.5 Integrated."
+        />
+        <FeatureCard 
+          icon={<ShieldCheck className="text-teal-400" />}
+          title="Secure"
+          desc="Enterprise-grade security."
+        />
+      </motion.div>
     </div>
   );
 }
 
-// Helper component for the boxes at the bottom
+// Small helper component for the 3 boxes at the bottom
 function FeatureCard({ icon, title, desc }) {
   return (
-    <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition backdrop-blur-lg">
-      <div className="mb-4 p-3 bg-gray-800 rounded-lg w-fit">
-        {icon}
+    <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-lg hover:bg-white/10 transition">
+      <div className="flex items-center gap-3 mb-2">
+        <div className="p-2 bg-gray-800 rounded-lg">{icon}</div>
+        <h3 className="font-bold">{title}</h3>
       </div>
-      <h3 className="text-xl font-bold mb-2">{title}</h3>
-      <p className="text-gray-400 leading-relaxed">{desc}</p>
+      <p className="text-sm text-gray-400">{desc}</p>
     </div>
   );
 }
