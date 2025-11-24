@@ -49,7 +49,7 @@ export default function LoginPage() {
           {/* YELLOW TEXT FIX: Using a dark semi-transparent background box to make the yellow pop */}
           <div className="inline-block bg-black/20 px-4 py-2 rounded-lg border border-white/10">
             <p className="text-yellow-300 font-bold text-sm tracking-wide">
-              (Use any random username and password!)
+              (Use any username: admin and password: admin!)
             </p>
           </div>
         </div>
